@@ -1,0 +1,38 @@
+name: CI
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
+      - run: pnpm demo
+      - run: pnpm evaluate
+      - run: pnpm pack
+      - name: Install and exercise the packed CLI
+        shell: bash
+        run: |
+          mkdir package-smoke
+          cd package-smoke
+          npm init -y
+          npm install ../docrelay-0.1.0.tgz
+          npx --no-install docrelay ingest --root ../examples/runbooks
+          npx --no-install docrelay search "dead-letter replay rate"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: docrelay-${{ matrix.os }}
+          path: docrelay-0.1.0.tgz

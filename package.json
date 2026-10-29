@@ -1,0 +1,27 @@
+{
+  "name": "docrelay",
+  "version": "0.1.0",
+  "description": "Search local documentation through MCP with source lines and an incremental SQLite index.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Igor Almeida",
+  "repository": { "type": "git", "url": "https://github.com/Almeida96/docrelay.git" },
+  "engines": { "node": ">=24.0.0" },
+  "packageManager": "pnpm@11.25.0",
+  "bin": { "docrelay": "dist/cli.js" },
+  "exports": { ".": "./dist/index.js" },
+  "files": ["dist", "src", "examples", "docs", "README.md", "LICENSE", "CHANGELOG.md"],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "node --run build && node --test test/*.test.mjs",
+    "evaluate": "node dist/cli.js evaluate --root examples/runbooks --cases examples/questions.json",
+    "demo": "node examples/mcp-client.mjs",
+    "prepack": "node --run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.2",
+    "openai": "7.45.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": { "@types/node": "24.10.0", "typescript": "7.0.2" }
+}

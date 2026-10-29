@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.docrelay/
+*.tgz
+.env
+.env.*
+coverage/
+*.db
+*.db-shm
+*.db-wal

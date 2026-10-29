@@ -1,0 +1,311 @@
+{
+  "dataset": "Local, hand-written retrieval cases; not a general benchmark or answer-quality score.",
+  "revision": "2851d6e5c8e0fdb25386d26f3c3a044ed764bc080d981c513125a50a6f85285d",
+  "k": 5,
+  "cases": 24,
+  "recallAtK": 1,
+  "mrrAtK": 0.9270833333333334,
+  "results": [
+    {
+      "id": "canary",
+      "query": "What percentage of traffic goes to the canary and for how long?",
+      "recall": 1,
+      "reciprocalRank": 0.5,
+      "retrieved": [
+        "[database.md:3-10]",
+        "[deployments.md:6-13]",
+        "[cache.md:17-23]",
+        "[database.md:18-26]",
+        "[deployments.md:14-22]"
+      ]
+    },
+    {
+      "id": "rollback",
+      "query": "What error rate triggers a rollback?",
+      "recall": 1,
+      "reciprocalRank": 1,
+      "retrieved": [
+        "[deployments.md:14-22]",
+        "[cache.md:17-23]",
+        "[deployments.md:23-30]",
+        "[retries.md:3-10]"
+      ]
+    },
+    {
+      "id": "migration",
+      "query": "How should a database migration add and remove columns?",
+      "recall": 1,
+      "reciprocalRank": 1,
+      "retrieved": [
+        "[deployments.md:23-30]",
+        "[access.md:3-9]",
+        "[deployments.md:6-13]",
+        "[deployments.md:14-22]",
+        "[webhooks.md:18-25]"
+      ]
+    },
+    {
+      "id": "backlog",
+      "query": "When should we page for queue backlog and scale workers?",
+      "recall": 1,
+      "reciprocalRank": 1,
+      "retrieved": [
+        "[queue.md:6-13]",
+        "[queue.md:1-5]",
+        "[access.md:3-9]",
+        "[queue.md:14-22]",
+        "[queue.md:23-29]"
+      ]
+    },
+    {
+      "id": "replay",
+      "query": "What is the dead-letter replay rate?",
+      "recall": 1,
+      "reciprocalRank": 1,
+      "retrieved": [
+        "[queue.md:14-22]",
+        "[deployments.md:14-22]",
+        "[cache.md:17-23]"
+      ]
+    },
+    {
+      "id": "quarantine",
+      "query": "What happens to messages with an invalid schema?",
+      "recall": 1,
+      "reciprocalRank": 1,
+      "retrieved": [
+        "[queue.md:23-29]",
+        "[queue.md:14-22]",
+        "[cache.md:10-16]",
+        "[deployments.md:23-30]",
+        "[incidents.md:9-16]"
+      ]
+    },
+    {
+      "id": "retry",
+      "query": "Which HTTP errors should be retried and how many attempts?",
+      "recall": 1,
+      "reciprocalRank": 1,
+      "retrieved": [
+        "[retries.md:3-10]",
+        "[queue.md:14-22]",
+        "[access.md:3-9]",
+        "[retries.md:19-26]",
+        "[retries.md:11-18]"
+      ]
+    },
+    {
+      "id": "idempotency",
+      "query": "What happens if an idempotency key is reused with a different body?",
+      "recall": 1,
+      "reciprocalRank": 1,
+      "retrieved": [
+        "[retries.md:11-18]",
+        "[webhooks.md:18-25]",
+        "[queue.md:6-13]",
+        "[webhooks.md:3-9]",
+        "[cache.md:3-9]"
+      ]
+    },
+    {
+      "id": "circuit",
+      "query": "When does the retry budget open the circuit?",
+      "recall": 1,
+      "reciprocalRank": 1,
+      "retrieved": [
+        "[retries.md:19-26]",
+        "[retries.md:3-10]",
+        "[retries.md:11-18]",
+        "[database.md:3-10]",
+        "[deployments.md:14-22]"
+      ]
+    },
+    {
+      "id": "pool",
+      "query": "What should we inspect before increasing connection pool limits?",
+      "recall": 1,
+      "reciprocalRank": 1,
+      "retrieved": [
+        "[database.md:3-10]",
+        "[access.md:3-9]",
+        "[cache.md:17-23]",
+        "[deployments.md:6-13]",
+        "[access.md:10-16]"
+      ]
+    },
+    {
+      "id": "restore",
+      "query": "What are the backup recovery point and recovery time objectives?",
+      "recall": 1,
+      "reciprocalRank": 1,
+      "retrieved": [
+        "[database.md:18-26]",
+        "[cache.md:17-23]",
+        "[queue.md:6-13]",
+        "[incidents.md:17-24]",
+        "[access.md:10-16]"
+      ]
+    },
+    {
+      "id": "replica",
+      "query": "How much replica lag can reporting queries tolerate?",
+      "recall": 1,
+      "reciprocalRank": 1,
+      "retrieved": [
+        "[database.md:11-17]",
+        "[cache.md:17-23]",
+        "[queue.md:6-13]"
+      ]
+    },
+    {
+      "id": "signature",
+      "query": "How do we verify a webhook signature?",
+      "recall": 1,
+      "reciprocalRank": 1,
+      "retrieved": [
+        "[webhooks.md:3-9]",
+        "[webhooks.md:10-17]",
+        "[webhooks.md:18-25]",
+        "[deployments.md:31-36]",
+        "[database.md:18-26]"
+      ]
+    },
+    {
+      "id": "delivery",
+      "query": "How are duplicate webhook events handled?",
+      "recall": 1,
+      "reciprocalRank": 0.25,
+      "retrieved": [
+        "[queue.md:1-5]",
+        "[webhooks.md:3-9]",
+        "[access.md:17-23]",
+        "[webhooks.md:10-17]",
+        "[webhooks.md:18-25]"
+      ]
+    },
+    {
+      "id": "rotation",
+      "query": "How long should old and new signing keys overlap?",
+      "recall": 1,
+      "reciprocalRank": 1,
+      "retrieved": [
+        "[webhooks.md:18-25]",
+        "[retries.md:11-18]",
+        "[cache.md:10-16]",
+        "[deployments.md:23-30]",
+        "[access.md:3-9]"
+      ]
+    },
+    {
+      "id": "status",
+      "query": "How often are SEV1 status updates published?",
+      "recall": 1,
+      "reciprocalRank": 1,
+      "retrieved": [
+        "[incidents.md:9-16]",
+        "[incidents.md:3-8]"
+      ]
+    },
+    {
+      "id": "review",
+      "query": "When is a post-incident review scheduled?",
+      "recall": 1,
+      "reciprocalRank": 1,
+      "retrieved": [
+        "[incidents.md:17-24]",
+        "[retries.md:11-18]",
+        "[incidents.md:9-16]",
+        "[incidents.md:3-8]",
+        "[access.md:10-16]"
+      ]
+    },
+    {
+      "id": "emergency",
+      "query": "Who approves emergency access and when does it expire?",
+      "recall": 1,
+      "reciprocalRank": 1,
+      "retrieved": [
+        "[access.md:10-16]",
+        "[access.md:3-9]",
+        "[access.md:17-23]",
+        "[cache.md:10-16]"
+      ]
+    },
+    {
+      "id": "logs",
+      "query": "How long are application logs and audit logs retained?",
+      "recall": 1,
+      "reciprocalRank": 1,
+      "retrieved": [
+        "[access.md:17-23]",
+        "[database.md:3-10]",
+        "[database.md:18-26]",
+        "[access.md:10-16]",
+        "[queue.md:23-29]"
+      ]
+    },
+    {
+      "id": "stampede",
+      "query": "How do we prevent a cache stampede?",
+      "recall": 1,
+      "reciprocalRank": 0.5,
+      "retrieved": [
+        "[cache.md:17-23]",
+        "[cache.md:3-9]",
+        "[cache.md:10-16]"
+      ]
+    },
+    {
+      "id": "cache-outage",
+      "query": "What concurrency limit applies to database fallback during a cache outage?",
+      "recall": 1,
+      "reciprocalRank": 1,
+      "retrieved": [
+        "[cache.md:17-23]",
+        "[cache.md:10-16]",
+        "[cache.md:3-9]",
+        "[database.md:3-10]",
+        "[deployments.md:14-22]"
+      ]
+    },
+    {
+      "id": "replay-idempotency",
+      "query": "How do queue replay and webhook consumers avoid duplicate events?",
+      "recall": 1,
+      "reciprocalRank": 1,
+      "retrieved": [
+        "[queue.md:14-22]",
+        "[queue.md:1-5]",
+        "[webhooks.md:10-17]",
+        "[webhooks.md:3-9]",
+        "[webhooks.md:18-25]"
+      ]
+    },
+    {
+      "id": "rollback-and-restore",
+      "query": "When is a deployment rollback needed and what is the database recovery time?",
+      "recall": 1,
+      "reciprocalRank": 1,
+      "retrieved": [
+        "[deployments.md:14-22]",
+        "[deployments.md:23-30]",
+        "[database.md:18-26]",
+        "[deployments.md:31-36]",
+        "[cache.md:17-23]"
+      ]
+    },
+    {
+      "id": "credential-expiry",
+      "query": "When should a service token be refreshed before expiry?",
+      "recall": 1,
+      "reciprocalRank": 1,
+      "retrieved": [
+        "[access.md:3-9]",
+        "[access.md:10-16]",
+        "[access.md:17-23]",
+        "[deployments.md:1-5]",
+        "[incidents.md:3-8]"
+      ]
+    }
+  ]
+}
