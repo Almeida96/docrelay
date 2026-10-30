@@ -25,7 +25,28 @@ export function openAIProvider(model: string): Provider {
   }, { signal });
 }
 
-export async function runAgent(provider: Provider, callTool: ToolCaller, question: string, options: { maxTurns?: number; maxToolCalls?: number; timeoutMs?: number; signal?: AbortSignal } = {}): Promise<AgentResult> {
+type AgentOptions = { maxTurns?: number; maxToolCalls?: number; timeoutMs?: number; signal?: AbortSignal };
+
+function abortable<T>(operation: Promise<T>, signal: AbortSignal): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const abort = () => reject(signal.reason);
+    signal.addEventListener('abort', abort, { once: true });
+    operation.then(resolve, reject).finally(() => signal.removeEventListener('abort', abort));
+    if (signal.aborted) abort();
+  });
+}
+
+export async function runAgent(provider: Provider, callTool: ToolCaller, question: string, options: AgentOptions = {}): Promise<AgentResult> {
+  const timeoutMs = options.timeoutMs ?? 120000;
+  if (!Number.isInteger(timeoutMs) || timeoutMs < 1 || timeoutMs > 300000) throw new Error('Invalid timeoutMs');
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(new DOMException('Agent deadline exceeded', 'TimeoutError')), timeoutMs);
+  const signal = AbortSignal.any([controller.signal, ...(options.signal ? [options.signal] : [])]);
+  try { return await executeAgent(provider, callTool, question, { ...options, signal }); }
+  finally { clearTimeout(timer); }
+}
+
+async function executeAgent(provider: Provider, callTool: ToolCaller, question: string, options: AgentOptions): Promise<AgentResult> {
   if (!question.trim() || question.length > 4000) throw new Error('Question must contain 1–4,000 characters');
   const maxTurns = options.maxTurns ?? 8;
   const maxToolCalls = options.maxToolCalls ?? 12;
@@ -33,7 +54,7 @@ export async function runAgent(provider: Provider, callTool: ToolCaller, questio
   for (const [name, value, max] of [['maxTurns', maxTurns, 20], ['maxToolCalls', maxToolCalls, 30], ['timeoutMs', timeoutMs, 300000]] as const) {
     if (!Number.isInteger(value) || value < 1 || value > max) throw new Error(`Invalid ${name}`);
   }
-  const signal = AbortSignal.any([AbortSignal.timeout(timeoutMs), ...(options.signal ? [options.signal] : [])]);
+  const signal = options.signal!;
   const input: ResponseInputItem[] = [{ role: 'user', content: question }];
   const seen = new Set<string>();
   const trace: AgentResult['trace'] = [];
@@ -42,7 +63,7 @@ export async function runAgent(provider: Provider, callTool: ToolCaller, questio
   let evidenceCharacters = 0;
   for (let turn = 1; turn <= maxTurns; turn++) {
     signal.throwIfAborted();
-    const response = await provider(input, signal);
+    const response = await abortable(provider(input, signal), signal);
     signal.throwIfAborted();
     // Preserve reasoning items as well as tool calls when continuing a Responses conversation.
     input.push(...toResponseInputItems(response.output));
@@ -63,7 +84,7 @@ export async function runAgent(provider: Provider, callTool: ToolCaller, questio
         const spec = retrievalTools.find(t => t.name === call.name);
         if (!spec) throw new Error('Unknown tool');
         const parsed = spec.schema.parse(args);
-        output = await callTool(call.name, parsed, signal);
+        output = await abortable(callTool(call.name, parsed, signal), signal);
         signal.throwIfAborted();
         const size = JSON.stringify(output).length;
         if (evidenceCharacters + size > 60000) throw new Error('Evidence budget exhausted (60,000 characters). Answer from already retrieved sources or declare insufficient evidence.');

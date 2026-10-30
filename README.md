@@ -223,4 +223,4 @@ The agent-loop tests use scripted provider responses. A live model response is
 not required for CI, and no live OpenAI call was used to validate this release.
 The offline demo and MCP integration tests use the real protocol and SDK.
 
-MIT license.
+[Contribution guide](CONTRIBUTING.md). MIT license.

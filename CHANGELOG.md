@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+Enforce agent deadlines and caller cancellation even when an adapter ignores its abort signal. Add regression tests with never-settling provider and tool promises.
+
 ## 0.1.0 — 2026-10-29
 
 - Index Markdown and text documents in SQLite with content hashes, bounded chunks,

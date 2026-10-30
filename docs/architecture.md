@@ -63,6 +63,12 @@ local final-answer submission function. MCP calls and provider calls receive the
 same abort signal. The OpenAI adapter disables retries so hidden retry loops do
 not extend the requested work.
 
+The loop also races each provider/tool promise against the deadline and caller
+cancellation. An adapter that ignores its signal cannot hold the caller open.
+This ends the wait; adapters still need to honor cancellation to stop their own
+background network or compute work. Synchronous code that blocks JavaScript's
+event loop cannot be interrupted by a timer.
+
 Each final answer must follow the schema and cite previously returned sources,
 or explicitly report insufficient evidence. This is a provenance check, not an
 entailment checker. Model refusals, context limits, exhausted budgets, or transport

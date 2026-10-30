@@ -10,7 +10,7 @@
   "packageManager": "pnpm@11.25.0",
   "bin": { "docrelay": "dist/cli.js" },
   "exports": { ".": "./dist/index.js" },
-  "files": ["dist", "src", "examples", "docs", "README.md", "LICENSE", "CHANGELOG.md"],
+  "files": ["dist", "src", "examples", "docs", "README.md", "CONTRIBUTING.md", "LICENSE", "CHANGELOG.md"],
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "node --run build && node --test test/*.test.mjs",

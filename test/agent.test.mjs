@@ -10,6 +10,19 @@ const call = (name, args) => ({ type: 'function_call', id: `fc_${++id}`, call_id
 const script = steps => async () => ({ output: steps.shift() ?? [call('search_documents', search)] });
 const tool = async () => ({ passages: [{ citation, text: 'Replay at 20 messages per second.' }] });
 
+test('deadline stops providers and tools that ignore their abort signal', async () => {
+  const never = () => new Promise(() => {});
+  await assert.rejects(runAgent(never, tool, 'Replay?', { timeoutMs: 20 }), { name: 'TimeoutError' });
+  await assert.rejects(runAgent(script([]), never, 'Replay?', { timeoutMs: 20 }), { name: 'TimeoutError' });
+});
+
+test('caller cancellation interrupts an uncooperative provider', async () => {
+  const controller = new AbortController();
+  const result = runAgent(() => new Promise(() => {}), tool, 'Replay?', { signal: controller.signal });
+  controller.abort(new Error('Caller cancelled'));
+  await assert.rejects(result, /Caller cancelled/);
+});
+
 test('agent performs retrieval and returns validated citations with a trace', async () => {
   const result = await runAgent(script([[call('search_documents', search)], [call('submit_answer', finish)]]), tool, 'Replay rate?');
   assert.equal(result.turns, 2); assert.equal(result.toolCalls, 2); assert.deepEqual(result.citations, [citation]);
